@@ -23,14 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dio = Dio();
-
-    // localhost
-    const emulatorIp = '10.2.2.2:3000';
-    const simulatorIp = '127.0.0.1:3000';
-
-    final ip = Platform.isIOS == true ? simulatorIp : emulatorIp;
-
     return DefaultLayout(
       child: SingleChildScrollView(
         /// keyboardDismissBehavior 드래그 한 순간에 키보드 없애기
@@ -67,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
+                    /// test@codefactory.ai:testtest
                     // ID:비밀번호
                     final rawString = '$userName:$password';
                     print(rawString);
@@ -84,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
                     await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (_) => RootTab(),
                       ),
@@ -95,15 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcwNzkxNjA5OCwiZXhwIjoxNzA4MDAyNDk4fQ.gjt8ZEJJVQw7OHtel4mQqe0OJhxSyKFfkLiWv5dO4ws';
 
-                    final response = await dio.post('http://$ip/auth/token', options: Options(
-                      headers: {
-                        'authorization': 'Bearer $refreshToken',
-                      },
-                    ));
-
-                    print(response.data);
                   },
                   style: TextButton.styleFrom(foregroundColor: Colors.black),
                   child: const Text('회원가입'),
