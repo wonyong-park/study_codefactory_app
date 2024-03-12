@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_codefactory_app/common/const/colors.dart';
+import 'package:study_codefactory_app/common/const/data.dart';
+import 'package:study_codefactory_app/restaurant/model/restaurant_model.dart';
 
 class RestaurantCard extends StatelessWidget {
   // 이미지
@@ -33,6 +35,21 @@ class RestaurantCard extends StatelessWidget {
     required this.deliveryTime,
     required this.deliveryFee,
   }) : super(key: key);
+
+  factory RestaurantCard.fromModel({required RestaurantModel model}) {
+    return RestaurantCard(
+      image: Image.network(
+        'http://$ip${model.thumbUrl}',
+        fit: BoxFit.cover,
+      ),
+      name: model.name,
+      tags: model.tags,
+      ratings: model.ratings,
+      deliveryTime: model.deliveryTime,
+      ratingsCount: model.ratingsCount,
+      deliveryFee: model.deliveryFee,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
