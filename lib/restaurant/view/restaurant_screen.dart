@@ -12,21 +12,13 @@ import 'package:study_codefactory_app/restaurant/view/restaurant_detail_screen.d
 class RestaurantScreen extends ConsumerWidget {
   const RestaurantScreen({Key? key}) : super(key: key);
 
-  Future<List<RestaurantModel>> paginateRestaurant(WidgetRef ref) async {
-    final dio = ref.watch(dioProvider);
-
-    final resp = await RestaurantRepository(dio, baseUrl: 'http://$ip/restaurant').paginate();
-
-    return resp.data;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: FutureBuilder<List<RestaurantModel>>(
-        future: paginateRestaurant(ref),
-        builder: (context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
+      child: FutureBuilder<CursorPagination<RestaurantModel>>(
+        future: ref.watch(restaurantRepository).paginate(),
+        builder: (context, AsyncSnapshot<CursorPagination<RestaurantModel>> snapshot) {
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
@@ -35,7 +27,7 @@ class RestaurantScreen extends ConsumerWidget {
 
           return ListView.separated(
             itemBuilder: (context, index) {
-              final pItem = snapshot.data![index];
+              final pItem = snapshot.data!.data[index];
 
               return GestureDetector(
                 onTap: () {
@@ -52,7 +44,7 @@ class RestaurantScreen extends ConsumerWidget {
                 ),
               );
             },
-            itemCount: snapshot.data!.length,
+            itemCount: snapshot.data!.data.length,
             separatorBuilder: (context, index) {
               return SizedBox(height: 16.0);
             },
