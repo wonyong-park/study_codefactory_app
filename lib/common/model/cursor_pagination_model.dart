@@ -54,7 +54,7 @@ class CursorPaginationMeta {
 
 /// 다시 처음부터 불러올때
 /// instance is CursorPaginationRefetching == true && instance is CursorPagination == true
-class CursorPaginationRefetching extends CursorPagination {
+class CursorPaginationRefetching<T> extends CursorPagination<T> {
   CursorPaginationRefetching({
     required super.data,
     required super.meta,
@@ -63,7 +63,7 @@ class CursorPaginationRefetching extends CursorPagination {
 
 /// 리스트의 맨 아래로 내려서 추가 데이터를 요청 할 때
 /// instance is CursorPaginationFetchingMore == true && instance is CursorPagination == true
-class CursorPaginationFetchingMore extends CursorPagination {
+class CursorPaginationFetchingMore<T> extends CursorPagination<T> {
   CursorPaginationFetchingMore({
     required super.data,
     required super.meta,

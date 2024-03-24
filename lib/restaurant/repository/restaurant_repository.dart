@@ -4,6 +4,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:study_codefactory_app/common/const/data.dart';
 import 'package:study_codefactory_app/common/dio/dio.dart';
 import 'package:study_codefactory_app/common/model/cursor_pagination_model.dart';
+import 'package:study_codefactory_app/common/model/pagination_params.dart';
 import 'package:study_codefactory_app/restaurant/model/restaurant_detail_model.dart';
 import 'package:study_codefactory_app/restaurant/model/restaurant_model.dart';
 
@@ -29,7 +30,9 @@ abstract class RestaurantRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<CursorPagination<RestaurantModel>> paginate();
+  Future<CursorPagination<RestaurantModel>> paginate({
+    @Queries() PaginationParams? paginationParams  = const PaginationParams(),
+  });
 
   // http://$ip/restaurant/:id
   @GET('/{id}')
