@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:study_codefactory_app/common/view/splash_screen.dart';
 import 'package:study_codefactory_app/user/view/login_screen.dart';
 
 void main() {
-  runApp(_App());
+  runApp(
+    ProviderScope(
+      child: _App(),
+    ),
+  );
 }
 
 class _App extends StatelessWidget {
