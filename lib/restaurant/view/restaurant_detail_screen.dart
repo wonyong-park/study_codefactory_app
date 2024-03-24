@@ -1,9 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:study_codefactory_app/common/const/data.dart';
-import 'package:study_codefactory_app/common/dio/dio.dart';
 import 'package:study_codefactory_app/common/layout/default_layout.dart';
 import 'package:study_codefactory_app/product/component/product_card.dart';
 import 'package:study_codefactory_app/restaurant/component/restaurant_card.dart';
