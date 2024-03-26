@@ -22,7 +22,7 @@ final restaurantRatingRepository = Provider.family<RestaurantRatingRepository, S
 
 // http://$ip/restaurant/:rid/rating
 @RestApi()
-abstract class RestaurantRatingRepository implements IBasePaginationRepository {
+abstract class RestaurantRatingRepository implements IBasePaginationRepository<RatingModel> {
   factory RestaurantRatingRepository(Dio dio, {String baseUrl}) = _RestaurantRatingRepository;
 
   @override
