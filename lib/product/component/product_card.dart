@@ -22,7 +22,7 @@ class ProductCard extends StatelessWidget {
   }) {
     return ProductCard(
       image: Image.network(
-        'http://$ip${model.imgUrl}',
+        model.imgUrl,
         fit: BoxFit.cover,
         width: 110,
         height: 110,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:study_codefactory_app/common/const/colors.dart';
 import 'package:collection/collection.dart';
+import 'package:study_codefactory_app/rating/model/rating_model.dart';
 
 class RatingCard extends StatelessWidget {
   // CircleAvatar
@@ -27,6 +28,20 @@ class RatingCard extends StatelessWidget {
     required this.content,
     Key? key,
   }) : super(key: key);
+
+  factory RatingCard.fromModel({
+    required RatingModel model,
+  }) {
+    return RatingCard(
+      avatarImage: NetworkImage(
+        model.user.imageUrl,
+      ),
+      images: model.imgUrls.map((e) => Image.network(e)).toList(),
+      rating: model.rating,
+      email: model.user.username,
+      content: model.content,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
