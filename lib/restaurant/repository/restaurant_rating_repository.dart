@@ -9,6 +9,16 @@ import 'package:study_codefactory_app/rating/model/rating_model.dart';
 
 part 'restaurant_rating_repository.g.dart';
 
+final restaurantRatingRepository = Provider.family<RestaurantRatingRepository, String>(
+      (ref, id) {
+    final dio = ref.watch(dioProvider);
+
+    final repository = RestaurantRatingRepository(dio, baseUrl: 'http://$ip/restaurant/$id/rating');
+
+    return repository;
+  },
+);
+
 // http://$ip/restaurant/:rid/rating
 @RestApi()
 abstract class RestaurantRatingRepository {
