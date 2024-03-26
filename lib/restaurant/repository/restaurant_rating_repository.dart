@@ -5,6 +5,7 @@ import 'package:study_codefactory_app/common/const/data.dart';
 import 'package:study_codefactory_app/common/dio/dio.dart';
 import 'package:study_codefactory_app/common/model/cursor_pagination_model.dart';
 import 'package:study_codefactory_app/common/model/pagination_params.dart';
+import 'package:study_codefactory_app/common/repository/base_pagination_repository.dart';
 import 'package:study_codefactory_app/rating/model/rating_model.dart';
 
 part 'restaurant_rating_repository.g.dart';
@@ -21,9 +22,10 @@ final restaurantRatingRepository = Provider.family<RestaurantRatingRepository, S
 
 // http://$ip/restaurant/:rid/rating
 @RestApi()
-abstract class RestaurantRatingRepository {
+abstract class RestaurantRatingRepository implements IBasePaginationRepository {
   factory RestaurantRatingRepository(Dio dio, {String baseUrl}) = _RestaurantRatingRepository;
 
+  @override
   @GET('/')
   @Headers({
     'accessToken': 'true',
