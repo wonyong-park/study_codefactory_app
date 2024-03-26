@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:study_codefactory_app/common/model/cursor_pagination_model.dart';
+import 'package:study_codefactory_app/common/model/model_with_id.dart';
 import 'package:study_codefactory_app/common/model/pagination_params.dart';
 import 'package:study_codefactory_app/common/repository/base_pagination_repository.dart';
 
-class PaginationProvider<U extends IBasePaginationRepository> extends StateNotifier<CursorPaginationBase> {
+class PaginationProvider<T extends IModelWithId, U extends IBasePaginationRepository<T>> extends StateNotifier<CursorPaginationBase> {
   final U repository;
 
   PaginationProvider({
@@ -59,7 +60,7 @@ class PaginationProvider<U extends IBasePaginationRepository> extends StateNotif
       // fetchMore
       // 데이터를 추가적으로 더 가져오는 상황
       if (fetchMore) {
-        final pState = state as CursorPagination;
+        final pState = state as CursorPagination<T>;
 
         // 클래스 변경 (CursorPaginationFetchingMore)
         state = CursorPaginationFetchingMore(
@@ -76,9 +77,9 @@ class PaginationProvider<U extends IBasePaginationRepository> extends StateNotif
         // 만약에 데이터가 있는 상황이라면
         // 기존 데이터로 보존한채로 Fetch (API 요청)을 진행
         if (state is CursorPagination && !forceRefetch) {
-          final pState = state as CursorPagination;
+          final pState = state as CursorPagination<T>;
 
-          state = CursorPaginationRefetching(
+          state = CursorPaginationRefetching<T>(
             data: pState.data,
             meta: pState.meta,
           );
@@ -103,14 +104,11 @@ class PaginationProvider<U extends IBasePaginationRepository> extends StateNotif
             ...resp.data,
           ],
         );
-      }
-      else {
+      } else {
         state = resp;
       }
-    }
-    catch (e) {
+    } catch (e) {
       state = CursorPaginationError(message: '데이터를 가져오지 못했습니다.');
     }
   }
-
 }
