@@ -2,8 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:study_codefactory_app/common/model/cursor_pagination_model.dart';
 import 'package:study_codefactory_app/common/model/pagination_params.dart';
 import 'package:study_codefactory_app/common/provider/pagination_provider.dart';
+import 'package:study_codefactory_app/restaurant/model/restaurant_detail_model.dart';
 import 'package:study_codefactory_app/restaurant/model/restaurant_model.dart';
 import 'package:study_codefactory_app/restaurant/repository/restaurant_repository.dart';
+import 'package:collection/collection.dart';
 
 final restaurantDetailProvider = Provider.family<RestaurantModel?, String>((ref, id) {
   final state = ref.watch(restaurantProvider);
@@ -12,7 +14,7 @@ final restaurantDetailProvider = Provider.family<RestaurantModel?, String>((ref,
     return null;
   }
 
-  return state.data.firstWhere((element) => element.id == id);
+  return state.data.firstWhereOrNull((element) => element.id == id);
 });
 
 final restaurantProvider = StateNotifierProvider<RestaurantStateNotifier, CursorPaginationBase>((ref) {
@@ -46,11 +48,24 @@ class RestaurantStateNotifier extends PaginationProvider<RestaurantModel, Restau
     final resp = await repository.getRestaurantDetail(id: id);
 
     // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3)]
+    // 요청 id : 10 데이터가 없는 경우 마지막에 추가
+    // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3), RestaurantDetailModel(10),]
+    if (pState.data.where((e) => e.id == id).isEmpty) {
+      state = pState.copyWith(
+        data: <RestaurantModel>[
+          ...pState.data,
+          resp,
+        ],
+      );
+    }
+    // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3)]
     // id : 2인 Model을 DetailModel로 변경
     // getDetail(2)
     // [RestaurantModel(1), RestaurantDetailModel(2), RestaurantModel(3)]
-    state = pState.copyWith(
-      data: pState.data.map<RestaurantModel>((e) => e.id == id ? resp : e).toList(),
-    );
+    else {
+      state = pState.copyWith(
+        data: pState.data.map<RestaurantModel>((e) => e.id == id ? resp : e).toList(),
+      );
+    }
   }
 }
