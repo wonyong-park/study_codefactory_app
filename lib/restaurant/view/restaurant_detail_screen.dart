@@ -161,7 +161,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
 
             return Padding(
               padding: EdgeInsets.only(top: 8.0),
-              child: ProductCard.fromModel(
+              child: ProductCard.fromRestaurantProductModel(
                 model: model,
               ),
             );

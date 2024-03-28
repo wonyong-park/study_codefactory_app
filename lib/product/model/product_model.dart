@@ -13,7 +13,7 @@ class ProductModel implements IModelWithId {
   final String name;
   // 이미지 URL
   @JsonKey(
-    toJson: DataUtils.pathToUrl,
+    fromJson: DataUtils.pathToUrl,
   )
   final String imgUrl;
   // 상품 상세 정보
@@ -35,4 +35,5 @@ class ProductModel implements IModelWithId {
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+
 }
