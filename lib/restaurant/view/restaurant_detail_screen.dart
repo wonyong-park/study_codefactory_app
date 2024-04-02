@@ -15,6 +15,7 @@ import 'package:study_codefactory_app/restaurant/provider/restaurant_rating_prov
 import 'package:study_codefactory_app/restaurant/repository/restaurant_repository.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
+  static String get routName => 'restaurantDetail';
   final String id;
 
   const RestaurantDetailScreen({
