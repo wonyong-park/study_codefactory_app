@@ -2,13 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:study_codefactory_app/common/const/data.dart';
 import 'package:study_codefactory_app/user/model/user_model.dart';
+import 'package:study_codefactory_app/user/repository/auth_repository.dart';
 import 'package:study_codefactory_app/user/repository/user_me_repository.dart';
 
 class UserModelStateNotifier extends StateNotifier<UserModelBase?> {
+  final AuthRepository authRepository;
   final UserMeRepository repository;
   final FlutterSecureStorage storage;
 
   UserModelStateNotifier({
+    required this.authRepository,
     required this.repository,
     required this.storage,
   }) : super(UserModelLoading()) {
@@ -27,5 +30,38 @@ class UserModelStateNotifier extends StateNotifier<UserModelBase?> {
     final resp = await repository.getMe();
 
     state = resp;
+  }
+
+  Future<UserModelBase> login({
+    required String userName,
+    required String password,
+  }) async {
+    try {
+      state = UserModelLoading();
+
+      final resp = await authRepository.login(userName: userName, password: password);
+
+      await Future.wait([
+        storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken),
+        storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken),
+      ]);
+
+      final userResp = await repository.getMe();
+      state = userResp;
+
+      return userResp;
+    } catch (e) {
+      state = UserModelError(message: '로그인에 실패했습니다.');
+      return Future.value(state);
+    }
+  }
+
+  Future<void> logout() async {
+    state = null;
+
+    await Future.wait([
+      storage.delete(key: ACCESS_TOKEN_KEY),
+      storage.delete(key: REFRESH_TOKEN_KEY),
+    ]);
   }
 }
