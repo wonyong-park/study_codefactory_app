@@ -11,9 +11,12 @@ import 'package:study_codefactory_app/common/const/data.dart';
 import 'package:study_codefactory_app/common/layout/default_layout.dart';
 import 'package:study_codefactory_app/common/secure_storage/secure_storage.dart';
 import 'package:study_codefactory_app/common/view/root_tab.dart';
+import 'package:study_codefactory_app/user/model/user_model.dart';
+import 'package:study_codefactory_app/user/provider/user_me_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   static String get routeName => 'login';
+
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -26,6 +29,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(userMeProvider);
+
     return DefaultLayout(
       child: SingleChildScrollView(
         /// keyboardDismissBehavior 드래그 한 순간에 키보드 없애기
@@ -61,41 +66,48 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () async {
-                    /// test@codefactory.ai:testtest
-                    // ID:비밀번호
-                    final rawString = '$userName:$password';
-                    print(rawString);
-                    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-                    String token = stringToBase64.encode(rawString);
+                  onPressed: state is UserModelLoading
+                      ? null
+                      : () async {
+                          ref.read(userMeProvider.notifier).login(
+                                userName: userName,
+                                password: password,
+                              );
 
-                    final response = await dio.post('http://$ip/auth/login', options: Options(
-                      headers: {
-                        'authorization': 'Basic $token',
-                      },
-                    ));
+                          return;
 
-                    final refreshToken = response.data['refreshToken'];
-                    final accessToken = response.data['accessToken'];
-
-                    final storage = ref.read(secureStorageProvider);
-
-                    await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
-                    await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
-
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (_) => RootTab(),
-                      ),
-                    );
-                  },
+                          // /// test@codefactory.ai:testtest
+                          // // ID:비밀번호
+                          // final rawString = '$userName:$password';
+                          // print(rawString);
+                          // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+                          // String token = stringToBase64.encode(rawString);
+                          //
+                          // final response = await dio.post('http://$ip/auth/login', options: Options(
+                          //   headers: {
+                          //     'authorization': 'Basic $token',
+                          //   },
+                          // ));
+                          //
+                          // final refreshToken = response.data['refreshToken'];
+                          // final accessToken = response.data['accessToken'];
+                          //
+                          // final storage = ref.read(secureStorageProvider);
+                          //
+                          // await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                          // await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+                          //
+                          // Navigator.of(context).pushReplacement(
+                          //   MaterialPageRoute(
+                          //     builder: (_) => RootTab(),
+                          //   ),
+                          // );
+                        },
                   style: TextButton.styleFrom(foregroundColor: Colors.white, backgroundColor: PRIMARY_COLOR),
                   child: const Text('로그인'),
                 ),
                 TextButton(
-                  onPressed: () async {
-
-                  },
+                  onPressed: () async {},
                   style: TextButton.styleFrom(foregroundColor: Colors.black),
                   child: const Text('회원가입'),
                 ),

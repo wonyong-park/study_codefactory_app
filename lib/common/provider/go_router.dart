@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:study_codefactory_app/user/provider/auth_provider.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final provider = ref.watch(authProvider);
+  final provider = ref.read(authProvider);
 
   return GoRouter(
     routes: provider.routes,

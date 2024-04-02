@@ -3,6 +3,7 @@ import 'package:study_codefactory_app/common/const/colors.dart';
 import 'package:study_codefactory_app/common/layout/default_layout.dart';
 import 'package:study_codefactory_app/product/view/product_screen.dart';
 import 'package:study_codefactory_app/restaurant/view/restaurant_screen.dart';
+import 'package:study_codefactory_app/user/view/profile_screen.dart';
 
 class RootTab extends StatefulWidget {
   static String get routeName => 'home';
@@ -54,11 +55,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
               child: Text('주문'),
             ),
           ),
-          Center(
-            child: Container(
-              child: Text('프로필'),
-            ),
-          ),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -28,7 +28,7 @@ class AuthProvider extends ChangeNotifier {
 
   List<GoRoute> get routes => [
         GoRoute(
-          path: '/',
+          path: '/home',
           name: RootTab.routeName,
           builder: (context, state) => RootTab(),
           routes: [
