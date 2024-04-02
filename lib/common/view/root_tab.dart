@@ -5,6 +5,8 @@ import 'package:study_codefactory_app/product/view/product_screen.dart';
 import 'package:study_codefactory_app/restaurant/view/restaurant_screen.dart';
 
 class RootTab extends StatefulWidget {
+  static String get routeName => 'home';
+
   const RootTab({Key? key}) : super(key: key);
 
   @override

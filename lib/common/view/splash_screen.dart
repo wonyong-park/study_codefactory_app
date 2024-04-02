@@ -9,6 +9,8 @@ import 'package:study_codefactory_app/common/view/root_tab.dart';
 import 'package:study_codefactory_app/user/view/login_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'splash';
+
   const SplashScreen({Key? key}) : super(key: key);
 
   @override

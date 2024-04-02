@@ -13,6 +13,7 @@ import 'package:study_codefactory_app/common/secure_storage/secure_storage.dart'
 import 'package:study_codefactory_app/common/view/root_tab.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'login';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
