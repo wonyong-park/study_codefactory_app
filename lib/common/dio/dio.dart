@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:study_codefactory_app/common/const/data.dart';
 import 'package:study_codefactory_app/common/secure_storage/secure_storage.dart';
+import 'package:study_codefactory_app/user/provider/auth_provider.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
@@ -10,6 +11,7 @@ final dioProvider = Provider<Dio>((ref) {
 
   dio.interceptors.add(CustomInterceptor(
     storage: storage,
+    ref: ref,
   ));
 
   return dio;
@@ -17,9 +19,11 @@ final dioProvider = Provider<Dio>((ref) {
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
+  final Ref ref;
 
   CustomInterceptor({
     required this.storage,
+    required this.ref,
   });
 
   // 1) 에러가 났을 때
@@ -103,6 +107,7 @@ class CustomInterceptor extends Interceptor {
         // 성공 처리
         return handler.resolve(response);
       } catch (e) {
+        ref.read(authProvider.notifier).logout();
         return handler.reject(err);
       }
     }
