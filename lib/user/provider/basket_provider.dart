@@ -3,6 +3,10 @@ import 'package:study_codefactory_app/product/model/product_model.dart';
 import 'package:study_codefactory_app/user/model/basket_item_model.dart';
 import 'package:collection/collection.dart';
 
+final basketProvider = StateNotifierProvider<BasketProvider, List<BasketItemModel>>((ref) {
+  return BasketProvider();
+});
+
 class BasketProvider extends StateNotifier<List<BasketItemModel>> {
   BasketProvider() : super([]);
 
@@ -15,10 +19,9 @@ class BasketProvider extends StateNotifier<List<BasketItemModel>> {
     final exists = state.firstWhereOrNull((e) => e.product.id == product.id) != null;
 
     if (exists) {
-      state
+      state = state
           .map((e) => e.product.id == product.id
               ? e.copyWith(
-                  product: product,
                   count: e.count + 1,
                 )
               : e)
