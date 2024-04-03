@@ -3,16 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:study_codefactory_app/common/const/data.dart';
 import 'package:study_codefactory_app/common/dio/dio.dart';
+import 'package:study_codefactory_app/user/model/basket_item_model.dart';
+import 'package:study_codefactory_app/user/model/patch_basket_body.dart';
 import 'package:study_codefactory_app/user/model/user_model.dart';
 
 part 'user_me_repository.g.dart';
 
 final userMeRepositoryProvider = Provider<UserMeRepository>(
-    (ref) {
-      final dio = ref.watch(dioProvider);
+  (ref) {
+    final dio = ref.watch(dioProvider);
 
-      return UserMeRepository(dio, baseUrl: 'http://$ip/user/me');
-    },
+    return UserMeRepository(dio, baseUrl: 'http://$ip/user/me');
+  },
 );
 
 // http://$ip/user/me
@@ -25,4 +27,18 @@ abstract class UserMeRepository {
     'accessToken': 'true',
   })
   Future<UserModel> getMe();
+
+  @GET('/basket')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<List<BasketItemModel>> getBasket();
+
+  @PATCH('/basket')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<List<BasketItemModel>> patchBasket({
+    @Body() required PatchBasketBody body,
+  });
 }
