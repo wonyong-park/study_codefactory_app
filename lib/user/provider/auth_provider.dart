@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:study_codefactory_app/common/view/root_tab.dart';
 import 'package:study_codefactory_app/common/view/splash_screen.dart';
+import 'package:study_codefactory_app/restaurant/view/basket_screen.dart';
 import 'package:study_codefactory_app/restaurant/view/restaurant_detail_screen.dart';
 import 'package:study_codefactory_app/user/model/user_model.dart';
 import 'package:study_codefactory_app/user/provider/user_me_provider.dart';
@@ -40,6 +41,11 @@ class AuthProvider extends ChangeNotifier {
               ),
             ),
           ],
+        ),
+        GoRoute(
+          path: '/basket',
+          name: BasketScreen.routeName,
+          builder: (context, state) => BasketScreen(),
         ),
         GoRoute(
           path: '/splash',

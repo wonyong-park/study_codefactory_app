@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:study_codefactory_app/common/const/colors.dart';
 import 'package:study_codefactory_app/common/layout/default_layout.dart';
@@ -15,6 +16,7 @@ import 'package:study_codefactory_app/restaurant/model/restaurant_model.dart';
 import 'package:study_codefactory_app/restaurant/provider/restaurant_provider.dart';
 import 'package:study_codefactory_app/restaurant/provider/restaurant_rating_provider.dart';
 import 'package:study_codefactory_app/restaurant/repository/restaurant_repository.dart';
+import 'package:study_codefactory_app/restaurant/view/basket_screen.dart';
 import 'package:study_codefactory_app/user/provider/basket_provider.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
@@ -69,7 +71,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
       title: '불타는 떡볶이',
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          context.pushNamed(BasketScreen.routeName);
         },
         child: Badge(
           isLabelVisible: basket.isNotEmpty,
